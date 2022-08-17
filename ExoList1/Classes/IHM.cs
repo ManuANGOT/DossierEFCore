@@ -10,6 +10,13 @@ namespace ListeContactEFCORE.Classes
 {
     internal class IHM
     {
+        List<Contact> Contacts;
+
+        public IHM()
+        {
+            RefreshContactList()
+        }
+
         private ApplicationDbContext _context = new();
 
         public void Run()
@@ -75,9 +82,50 @@ namespace ListeContactEFCORE.Classes
 
         private void AddContact()
         {
+            Console.Clear();
 
+            Contact c = null;
+
+            try
+            {
+                string name, prenom, age, genre, phone, email;
+
+                Console.Write("Veuillez saisir le nom du contact : ");
+                name = Console.ReadLine();
+
+                Console.Write("Veuillez saisir le prénom du contact : ");
+                prenom = Console.ReadLine();
+
+                Console.Write("Veuillez saisir l'âge du contact : ");
+                age = Console.ReadLine();
+
+                Console.Write("Veuillez saisir le genre du contact : ");
+                genre = Console.ReadLine();
+
+                Console.Write("Veuillez saisir le numéro de téléphone du contact : ");
+                phone = Console.ReadLine();
+
+                Console.Write("Veuillez saisir l'email du contact : ");
+                email = Console.ReadLine();
+
+
+                c = new(name, prenom, age, genre, phone, email);
+               c.Id = c.Add();
+                
+                if (c.Id > 0)
+                    Console.WriteLine("\nNouveau contact ajouté avec succès!\n");
+
+                else
+                    Console.WriteLine("\nErreur de l'ajout d'un nouveau contact!");
+
+            }
+                
         }
         private void EditContact ()
+            Console.Clear();
+
+            Console.WriteLine("\nmodifier un contact?");
+
         {
 
         }
