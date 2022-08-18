@@ -83,6 +83,7 @@ namespace ListeContactEFCORE.Classes
         private void AddContact()
         {
             Console.Clear();
+            Console.WriteLine("------------------------- Ajouter Contact ? -------------------------\n");
 
             Contact c = null;
 
@@ -122,17 +123,121 @@ namespace ListeContactEFCORE.Classes
                 
         }
         private void EditContact ()
+           { 
             Console.Clear();
 
-            Console.WriteLine("\nmodifier un contact?");
+            Console.WriteLine(Console.WriteLine("------------------------- Modifier Contact ? -------------------------\n"););
 
-        {
+            Contact c = null;
+
+            int index = -1;
+
+            Console.Write("Veuillez saisir l'Id du contact à modifier");
+
+            while(!int.TryParse(Console.ReadLine(), out index) && index >0)
+                Console.WriteLine("Veuillez saisir un entier positif");
+
+
+            (bool found, Contact tmp) = GetContact(index);
+
+            if (found)
+            {
+                c = tmp;
+            }
+
+            else
+            {
+                Console.WriteLine("\nAucun contact avec cet ID !\n");
+                return;
+            }
+
+            try
+            {
+                 string name, prenom, age, genre, phone, email;
+
+                 Console.Write($"Veuillez saisir le nom du contact (Actual Value = {c.Name} => PRESS ENTER pour conserver) : ");
+                string stringTmp = Console.ReadLine();
+                name = stringTmp == "" ? c.Name : stringTmp;
+
+                Console.Write($"Veuillez saisir le prénom du contact (Actual Value = {c.Prenom} => PRESS ENTER pour conserver) : ");
+                stringTmp = Console.ReadLine();
+                prenom = stringTmp == "" ? c.Prenom : stringTmp;
+
+                
+                Console.Write($"Veuillez saisir le genre du contact (Actual Value = {c.Genre} => PRESS ENTER pour conserver) : ");
+                stringTmp = Console.ReadLine();
+                genre = stringTmp == "" ? c.Genre : stringTmp;
+
+                
+                Console.Write($"Veuillez saisir le numéro de téléphone du contact (Actual Value = {c.Phone} => PRESS ENTER pour conserver) : ");
+                stringTmp = Console.ReadLine();
+                phone = stringTmp == "" ? c.Phone : stringTmp;
+
+                
+                Console.Write($"Veuillez saisir l'adresse mail du contact (Actual Value = {c.Email} => PRESS ENTER pour conserver) : ");
+                stringTmp = Console.ReadLine();
+                email = stringTmp == "" ? c.Email : stringTmp;
+
+
+                Contact tmp = new Contact()
+                { 
+                Name = name,
+                Prenom = prenom,
+                Genre = genre,
+                Phone = phone,
+                Email = email              
+                
+                };
+
+                if (!tmp.Update())
+                    Console.WriteLine("\nErreur de la modification du contact.\n");
+                else
+                    Console.WriteLine("\nContact modifié avec succès...");
+
+            }
 
         }
 
         private void DeleteContact ()
-        {
+        {Console.Clear();
 
+            Console.WriteLine("------------------------- Supprimer Contact -------------------------\n");
+
+;
+            int index = -1;
+          
+            Console.Write("Veuillez saisir l'id du contact à supprimer : ");
+            while (!int.TryParse(Console.ReadLine(), out index) && index >= 0)
+                OnRed("Veuillez saisir un entier");
+
+
+            (bool found, Contact c) = GetContact(index);
+            
+            if (!found)
+               
+                OnRed("\nAucun contact avec cet ID!\n");
+
+            if (c != null)
+            {
+                ( bool result, string message) = c.Delete();
+                
+                if (result)
+                    OnGreen("\nContact supprimé avec succès!\n");
+                else
+                    OnRed("\nErreur lors de la suppression du contact!\n");
+            }
         }
+
+        public (bool, Contact) GetContact(int id)
+        {
+            Contact contact = new();
+            (bool found, Contact c) = GetContact(id);
+
+            if (found)
+                contact = c;
+
+            return (found, c)
+        }
+
     }
 }

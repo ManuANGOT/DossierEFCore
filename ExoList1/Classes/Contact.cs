@@ -16,6 +16,9 @@ namespace ListeContactEFCORE.Classes
         [StringLength(80)]
 
         // L'annotation Required sert à s'assurer que la propriété est alimentée en cas d'ajout
+         [Required]
+        public int Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 
@@ -42,7 +45,7 @@ namespace ListeContactEFCORE.Classes
 
         public override string ToString()
         {
-            return $"Nom : {Name}  - Prénom : {Prenom}) - Âge : {Age} ans - Genre : {Genre} - Téléphone {Phone} - Email : {Email}";
+            return $"Id : {ID} - Nom : {Name}  - Prénom : {Prenom}) - Âge : {Age} ans - Genre : {Genre} - Téléphone {Phone} - Email : {Email}";
         }
 
 
